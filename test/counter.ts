@@ -3,7 +3,9 @@ import { Wallet } from "ethers";
 import chai from "chai";
 import { deployContract, solidity } from "ethereum-waffle";
 import CounterArtifact from "../artifacts/Counter.json";
+import TransactionLibArtifact from "../artifacts/Transaction.json";
 import { Counter } from "../typechain/Counter";
+import link from '../scripts/link';
 
 chai.use(solidity);
 const { expect } = chai;
@@ -15,10 +17,19 @@ describe("Counter", () => {
     // 1
     const signers = await ethers.signers();
 
+    // deploy library
+    const transactionLib = await deployContract(
+      <Wallet>signers[0],
+      TransactionLibArtifact,
+      []
+    );
+
     // 2
     counter = (await deployContract(
       <Wallet>signers[0],
-      CounterArtifact
+      link(CounterArtifact, {
+        Transaction: transactionLib.address,
+      }),
     )) as Counter;
     const initialCount = await counter.getCount();
 
@@ -39,7 +50,7 @@ describe("Counter", () => {
   describe("count down", async () => {
     // 5
     it("should fail", async () => {
-      await counter.countDown();
+      await expect(counter.countDown()).to.be.reverted;
     });
 
     it("should count down", async () => {

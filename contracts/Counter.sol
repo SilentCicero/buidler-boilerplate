@@ -1,10 +1,13 @@
-pragma solidity ^0.6.8;
+// SPDX-License-Identifier: MIT
+pragma solidity 0.6.8;
+pragma experimental ABIEncoderV2;
 
 import "@nomiclabs/buidler/console.sol";
-
+import { Transaction } from "./Transaction.sol";
 
 contract Counter {
-    uint256 count = 0;
+    using Transaction for Transaction.Data;
+    uint256 public count = 0;
 
     event CountedTo(uint256 number);
 
@@ -17,9 +20,12 @@ contract Counter {
         uint256 newCount = count + 1;
         require(newCount > count, "Uint256 overflow");
 
-        count = newCount;
+        Transaction.Data memory data = Transaction.decode("hello");
+
+        count = newCount + data.property;
 
         emit CountedTo(count);
+
         return count;
     }
 

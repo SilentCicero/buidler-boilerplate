@@ -1,7 +1,20 @@
-import { ethers } from "@nomiclabs/buidler";
+import { ethers, config } from "@nomiclabs/buidler";
+import { readArtifact } from "@nomiclabs/buidler/plugins";
+import link from './link';
 
 async function main() {
-  const factory = await ethers.getContract("Counter");
+  // get library
+  const library = await ethers.getContract("Transaction");
+
+  // deploy transaction
+  const transaction = await library.deploy();
+
+  // get artifacts for Counter, deploy with Library linked code
+  const cArtifact = await readArtifact(config.paths.artifacts, "Counter");
+  const factory = await ethers.getContractFactory(
+    cArtifact.abi,
+    link(cArtifact, { Transaction: transaction.address }).bytecode,
+  );
 
   // If we had constructor arguments, they would be passed into deploy()
   let contract = await factory.deploy();

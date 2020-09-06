@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clear": "rm -rf cache",
     "build": "npm run compile && npx buidler typechain",
+    "publish-rinkeby": "npx buidler run --network rinkeby scripts/deploy.ts",
     "compile": "npx buidler compile",
     "test": "npx buidler test",
-    "coverage": "npm run build && npx buidler coverage --temp artifacts --network coverage"
+    "coverage": "npm run clear && npm run build && npx buidler coverage --temp artifacts --network coverage"
   },
   "repository": {
     "type": "git",
