@@ -5,9 +5,9 @@ usePlugin("@nomiclabs/buidler-etherscan");
 usePlugin("buidler-typechain");
 usePlugin("solidity-coverage");
 
-const INFURA_API_KEY = process.env.fuel_v1_default_infura as string;
-const RINKEBY_PRIVATE_KEY = process.env.fuel_v1_default_privatekey as string;
-const ETHERSCAN_API_KEY = process.env.fuel_v1_default_etherscan as string;
+const INFURA_API_KEY = (process.env.fuel_v1_default_infura || "") as string;
+const RINKEBY_PRIVATE_KEY = (process.env.fuel_v1_default_privatekey || "") as string;
+const ETHERSCAN_API_KEY = (process.env.fuel_v1_default_etherscan || "") as string;
 
 const config: BuidlerConfig = {
   defaultNetwork: "buidlerevm",
