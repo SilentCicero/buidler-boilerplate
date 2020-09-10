@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.6.8;
+pragma solidity ^0.5.15;
 pragma experimental ABIEncoderV2;
 
 import "@nomiclabs/buidler/console.sol";
-import { Transaction } from "./Transaction.sol";
+import {Transaction} from "./Transaction.sol";
 
 contract Counter {
     using Transaction for Transaction.Data;

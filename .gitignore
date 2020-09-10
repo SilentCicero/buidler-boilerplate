@@ -4,3 +4,5 @@ build/
 typechain/
 artifacts/
 coverage*
+bin
+.vscode
